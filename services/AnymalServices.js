@@ -15,18 +15,15 @@ const selectId = async (id) => {
     return data;
 };
 
-const insertPet = async (object) => {
-    const conex = db.connection();
-    const { name, specie, size, weight, color, sex } = object;
+const insertPet = async (name, size, weight, color, sex, specie) => {
+    console.log('Acessando o dados no banco');
+    const conex = await db.connection();
+    console.log();
     await conex.query(
-        'insert into pets (pet_name, size, weight,color, sex, species ) values (?,?,?,?,?,?)',
-        name,
-        size,
-        weight,
-        color,
-        sex,
-        specie
+        'insert into pets (pet_name, size, weight,color, sex, species ) values (?,?,?,?,?,?);',
+        [name, size, weight, color, sex, specie]
     );
+    return;
 };
 
 module.exports = { selectAll, selectId, insertPet };

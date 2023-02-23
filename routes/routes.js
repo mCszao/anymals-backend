@@ -1,6 +1,9 @@
 const express = require('express');
 const AnymalController = require('../controllers/AnymalController');
 const routes = express.Router();
+const db = require('../db');
+
+routes.use(express.json());
 
 routes.get('/', (req, res) => {
     res.json({ lang: 'js' });
@@ -17,16 +20,18 @@ routes.get('/animals', async (req, res) => {
 routes.get('/animals/:id', async (req, res) => {
     try {
         res.json(await AnymalController.petById(req.params.id));
-    } catch (e) {}
+    } catch (e) {
+        throw e;
+    }
 });
 
 routes.post('/animals', async (req, res) => {
     try {
         await AnymalController.addPetFull(req.body);
-    } catch (error) {
-        console.log(error);
-    }
+    } catch (error) {}
+    res.send('Dados adicionais com sucesso');
 });
+
 routes.get('/animals/:species', (req, res) => {
     const param = req.params.species;
     const filtered =

@@ -13,8 +13,14 @@ const petById = async (id) => {
     }
 };
 
-const addPetFull = async (json) => {
-    await AnymalServices.insertPet(json);
+const addPetFull = async (object) => {
+    const { name = 'default', size, weight, color, sex, specie } = object;
+    try {
+        await AnymalServices.insertPet(name, size, weight, color, sex, specie);
+    } catch (error) {
+        console.log(error);
+        return;
+    }
 };
 
 module.exports = { allPets, petById, addPetFull };
