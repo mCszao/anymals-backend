@@ -14,7 +14,7 @@ const petById = async (id) => {
 };
 
 const addPetFull = async (object) => {
-    const { name = 'default', size, weight, color, sex, specie } = object;
+    const { name, size, weight, color, sex, specie } = object;
     try {
         await AnymalServices.insertPet(name, size, weight, color, sex, specie);
     } catch (error) {
@@ -23,4 +23,21 @@ const addPetFull = async (object) => {
     }
 };
 
-module.exports = { allPets, petById, addPetFull };
+const editById = async (id, json) => {
+    const { name, size, weight, color, sex, specie } = json;
+    try {
+        await AnymalServices.updateInfos(
+            id,
+            name,
+            size,
+            weight,
+            color,
+            sex,
+            specie
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+module.exports = { allPets, petById, addPetFull, editById };

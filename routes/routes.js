@@ -25,11 +25,19 @@ routes.get('/animals/:id', async (req, res) => {
     }
 });
 
+routes.put('./animals/:id', async (req, res) => {
+    try {
+        await AnymalController.editById(req.params.id, req.body);
+    } catch (error) {
+        res.send(error);
+    }
+});
+
 routes.post('/animals', async (req, res) => {
     try {
         await AnymalController.addPetFull(req.body);
+        res.send('Dados adicionais com sucesso');
     } catch (error) {}
-    res.send('Dados adicionais com sucesso');
 });
 
 routes.get('/animals/:species', (req, res) => {

@@ -16,14 +16,20 @@ const selectId = async (id) => {
 };
 
 const insertPet = async (name, size, weight, color, sex, specie) => {
-    console.log('Acessando o dados no banco');
+    console.log('Acessando dados no banco');
     const conex = await db.connection();
-    console.log();
     await conex.query(
         'insert into pets (pet_name, size, weight,color, sex, species ) values (?,?,?,?,?,?);',
         [name, size, weight, color, sex, specie]
     );
-    return;
 };
 
-module.exports = { selectAll, selectId, insertPet };
+const updateInfos = async (id, name, size, weight, color, sex, specie) => {
+    console.log('Atualizando dados no banco');
+    const conex = await db.connection();
+    conex.query(
+        'UPDATE pets SET pet_name = ?, size = ?, weight = ?, color = ?, sex = ?, specie = ? WHERE id = ?',
+        [name, size, weight, color, sex, specie, id]
+    );
+};
+module.exports = { selectAll, selectId, insertPet, updateInfos };
