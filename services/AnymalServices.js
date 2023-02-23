@@ -27,8 +27,8 @@ const insertPet = async (name, size, weight, color, sex, specie) => {
 const updateInfos = async (id, name, size, weight, color, sex, specie) => {
     console.log('Atualizando dados no banco');
     const conex = await db.connection();
-    conex.query(
-        'UPDATE pets SET pet_name = ?, size = ?, weight = ?, color = ?, sex = ?, specie = ? WHERE id = ?',
+    await conex.query(
+        'UPDATE pets SET pet_name = ?, size = ?, weight = ?, color = ?, sex = ?, species = ? WHERE id = ?',
         [name, size, weight, color, sex, specie, id]
     );
 };
