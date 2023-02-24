@@ -14,30 +14,30 @@ const petById = async (id) => {
 };
 
 const addPetFull = async (object) => {
-    const { name, size, weight, color, sex, specie } = object;
+    const { name, specie, size, weight, color, sex } = object;
     try {
-        await AnymalServices.insertPet(name, size, weight, color, sex, specie);
+        await AnymalServices.insertPet(name, specie, size, weight, color, sex);
     } catch (error) {
         console.log(error);
         return;
     }
 };
 
-const editById = async (id, json) => {
-    const { name, size, weight, color, sex, specie } = json;
+const editById = async (id, object) => {
+    const { name } = object;
     try {
-        await AnymalServices.updateInfos(
-            id,
-            name,
-            size,
-            weight,
-            color,
-            sex,
-            specie
-        );
+        await AnymalServices.updateInfos(id, name);
     } catch (error) {
         console.log(error);
     }
 };
 
-module.exports = { allPets, petById, addPetFull, editById };
+const deleteAnymal = async (id) => {
+    try {
+        await AnymalServices.deleteInfo(id);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+module.exports = { allPets, petById, addPetFull, editById, deleteAnymal };

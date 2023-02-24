@@ -1,7 +1,6 @@
 const express = require('express');
 const AnymalController = require('../controllers/AnymalController');
 const routes = express.Router();
-const db = require('../db');
 
 routes.use(express.json());
 
@@ -25,43 +24,31 @@ routes.get('/animals/:id', async (req, res) => {
     }
 });
 
-routes.put('./animals/:id', async (req, res) => {
+routes.put('/animals/:id', async (req, res) => {
     try {
         await AnymalController.editById(req.params.id, req.body);
     } catch (error) {
-        res.send(error);
+        console.log(error);
     }
+    res.end();
 });
 
 routes.post('/animals', async (req, res) => {
     try {
         await AnymalController.addPetFull(req.body);
-        res.send('Dados adicionais com sucesso');
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+    }
+    res.end();
 });
 
-routes.get('/animals/:species', (req, res) => {
-    const param = req.params.species;
-    const filtered =
-        param != ''
-            ? pets.filter((pet) => pet.species.toLowerCase() === param)
-            : [];
-    if (filtered.length == 0)
-        res.status(404).json({
-            error: 'Não foi possível encontrar essa espécie',
-        });
-    if (filtered.length != 0) res.status(200).json(filtered);
-});
-
-routes.get('/animals/sex/:sex', (req, res) => {
-    const param = req.params.sex;
-    const filtered = pets.filter((pet) => pet.sex.toLowerCase() === param);
-    console.log(filtered);
-    if (filtered.length != 0) res.status(200).json(filtered);
-    if (filtered == 0)
-        res.status(404).json({
-            error: 'não foi possível localizar animais desse sexo',
-        });
+routes.delete('/animals/:id', async (req, res) => {
+    try {
+        await AnymalController.deleteAnymal(req.params.id);
+    } catch (error) {
+        console.log(error);
+    }
+    res.end();
 });
 
 module.exports = routes;
