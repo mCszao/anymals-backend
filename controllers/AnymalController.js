@@ -22,7 +22,11 @@ const petById = async (id) => {
 const addPetFull = async (object) => {
     const { name, specie, size, weight, color, sex } = object;
     try {
-        await AnymalServices.insertPet(name, specie, size, weight, color, sex);
+        const conex = await db.connection();
+        await conex.query(
+            'insert into pets (pet_name, species, size, weight, color, sex) values (?,?,?,?,?,?);',
+            [name, specie, size, weight, color, sex]
+        );
     } catch (error) {
         console.log(error);
         return;
@@ -32,7 +36,11 @@ const addPetFull = async (object) => {
 const editById = async (id, object) => {
     const { name } = object;
     try {
-        await AnymalServices.updateInfos(id, name);
+        const conex = await db.connection();
+        await conex.query('update pets set pet_name = ? where id_pet = ?', [
+            name,
+            id,
+        ]);
     } catch (error) {
         console.log(error);
     }
@@ -40,7 +48,8 @@ const editById = async (id, object) => {
 
 const deleteAnymal = async (id) => {
     try {
-        await AnymalServices.deleteInfo(id);
+        const conex = await db.connection();
+        await conex.query('delete from pets where id_pet = ?', id);
     } catch (error) {
         console.log(error);
     }
