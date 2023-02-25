@@ -1,12 +1,18 @@
+const db = require('../db');
 const AnymalServices = require('../services/AnymalServices');
 const allPets = async () => {
-    const data = await AnymalServices.selectAll();
+    const conex = await db.connection();
+    const [data] = await conex.query('select * from pets');
     return data;
 };
 
 const petById = async (id) => {
     try {
-        const data = await AnymalServices.selectId(id);
+        const conex = await db.connection();
+        const [data] = await conex.query(
+            'select * from pets where id_pet = ?',
+            id
+        );
         return data;
     } catch (error) {
         return console.log(id + 'não existente');
